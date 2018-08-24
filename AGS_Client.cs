@@ -8,7 +8,7 @@ using System.Data;
 using System.Net;
 using System.Text;
 
-namespace WebApplication_AGSClient
+namespace agsml_client
 {
     public class AGS_Client
     {
