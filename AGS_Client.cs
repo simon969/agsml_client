@@ -24,6 +24,9 @@ namespace agsml_client
         const String AGS_END = "[AGS_END]";
         const int MAX_BUFFER_SIZE = 1048;
 
+        const String XML_START= "[XML_START]";
+        const String XML_END = "[XML_END]";
+
         enum enumStatus
         {
             AGSEmpty,
@@ -37,7 +40,8 @@ namespace agsml_client
         public AGS_Client(String ags_server, int port)
         {
           //  socket = ConnectSocket(ags_server, port);
- 
+        try {
+
             socket = new TcpClient();
             socket.Connect(ags_server, port);
 
@@ -46,6 +50,11 @@ namespace agsml_client
             s_in = new StreamReader(networkStream);
             s_out = new StreamWriter(networkStream) { NewLine = "\r\n", AutoFlush = true };
 
+            Console.WriteLine ("Connected to " + ags_server + ":" + port);
+
+        } catch (Exception e){
+         Console.WriteLine(e.Message);
+        }
 
         }
         
@@ -55,6 +64,13 @@ namespace agsml_client
             }
             set {
             ags_data = value;
+            
+            if (ags_data.Length > 0) {
+              status = enumStatus.AGSReceived;
+            } else {
+              status = enumStatus.AGSEmpty;  
+            }
+            
             }
         }
         public String XML_DATA
@@ -74,32 +90,30 @@ namespace agsml_client
         private void sendAGS() {
            try {
 
-           
+                StringBuilder sb = new StringBuilder();
+                sb.Append(AGS_START);
+                sb.AppendLine();
+                sb.Append(ags_data);
+                sb.AppendLine();
+                sb.Append(AGS_END);
 
-            StringBuilder sb = new StringBuilder();
-            sb.Append(AGS_START);
-            sb.Append(ags_data);
-            sb.Append(AGS_END);
+                String wrapped_ags_data = sb.ToString();
 
-            String wrapped_ags_data = sb.ToString();
+                TextReader tr = new StringReader(wrapped_ags_data);
 
-            TextReader tr = new StringReader(wrapped_ags_data);
+                String line = "";
 
-            String line = "";
+                while ((line = tr.ReadLine()) != null) {
+                    s_out.Write(line);
+                    s_out.WriteLine();
+                }
 
-            while ((line = tr.ReadLine()) != null)
-            {
-                s_out.Write(line);
-                s_out.WriteLine();
-            }
+                s_out.Flush();
 
-            s_out.Flush();
+                status = enumStatus.AGSSent;
 
-            status = enumStatus.AGSSent;
-
-            } catch (Exception e)
-            {
-
+            } catch (Exception e)  {
+                Console.WriteLine (e.Message);
             }
         }
         private void saveAGS() {
@@ -109,25 +123,43 @@ namespace agsml_client
         private void readXML() {
             // recieve xml data from ags_server 
             // https://stackoverflow.com/questions/5867227/convert-streamreader-to-byte
+
             try {
+                Boolean IsXMLData = false;
+                int read;
+                byte[] buffer = new byte[MAX_BUFFER_SIZE];
+                // MemoryStream ms = new MemoryStream();
+                StringBuilder sb =  null; 
+                while ((read = s_in.BaseStream.Read(buffer, 0, MAX_BUFFER_SIZE)) > 0) {
+                        // ms.Write(buffer, 0, read);
+                        string s = System.Text.Encoding.UTF8.GetString(buffer, 0, read);
+                        if (IsXMLData==false) {
+                            if (s.IndexOf(XML_START)==0) {
+                                IsXMLData=true;
+                                sb =  new StringBuilder();
+                                sb.Append(s.Substring(XML_START.Length));
+                            }
+                        else {
+                            if (s.IndexOf(XML_END)>0) {
+                              sb.Append(s.Substring(0, s.Length - XML_END.Length));  
+                            } 
+                            else {
+                              sb.Append(s);  
+                            }
+                        }
+                        }
 
-  
-            int read;
-            byte[] buffer = new byte[MAX_BUFFER_SIZE];
-            MemoryStream ms = new MemoryStream();
+                        
+                    }
 
-            while ((read = s_in.BaseStream.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    ms.Write(buffer, 0, read);
-                }
-
-                ms.Flush();
-
-                xml_data = Encoding.UTF8.GetString(ms.ToArray());
+                //    xml_data = Encoding.UTF8.GetString(ms.ToArray());
+                
+                xml_data = sb.ToString();
+                
                 status = enumStatus.XMLReceived;
-            } catch (Exception e)
-            {
 
+            } catch (Exception e) {
+                Console.WriteLine (e.Message);
             }
             
         }

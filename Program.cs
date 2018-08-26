@@ -9,8 +9,8 @@ namespace agsml_client
         {
         
         Thread thread = new Thread(new ThreadStart(WorkThreadFunction));
-        
-        Console.WriteLine("Hello World!");
+        thread.Start();
+        Console.WriteLine("Exiting Main()");
         }
        static void WorkThreadFunction()
         {
