@@ -1,0 +1,11 @@
+C:\Users\ThomsonSJ\Documents\Visual Studio 2015\Projects\agsml_client\bin\Debug\netcoreapp2.1\agsml_client.deps.json
+C:\Users\ThomsonSJ\Documents\Visual Studio 2015\Projects\agsml_client\bin\Debug\netcoreapp2.1\agsml_client.runtimeconfig.json
+C:\Users\ThomsonSJ\Documents\Visual Studio 2015\Projects\agsml_client\bin\Debug\netcoreapp2.1\agsml_client.runtimeconfig.dev.json
+C:\Users\ThomsonSJ\Documents\Visual Studio 2015\Projects\agsml_client\bin\Debug\netcoreapp2.1\agsml_client.dll
+C:\Users\ThomsonSJ\Documents\Visual Studio 2015\Projects\agsml_client\bin\Debug\netcoreapp2.1\agsml_client.pdb
+C:\Users\ThomsonSJ\Documents\Visual Studio 2015\Projects\agsml_client\obj\Debug\netcoreapp2.1\agsml_client.csprojAssemblyReference.cache
+C:\Users\ThomsonSJ\Documents\Visual Studio 2015\Projects\agsml_client\obj\Debug\netcoreapp2.1\agsml_client.csproj.CoreCompileInputs.cache
+C:\Users\ThomsonSJ\Documents\Visual Studio 2015\Projects\agsml_client\obj\Debug\netcoreapp2.1\agsml_client.AssemblyInfoInputs.cache
+C:\Users\ThomsonSJ\Documents\Visual Studio 2015\Projects\agsml_client\obj\Debug\netcoreapp2.1\agsml_client.AssemblyInfo.cs
+C:\Users\ThomsonSJ\Documents\Visual Studio 2015\Projects\agsml_client\obj\Debug\netcoreapp2.1\agsml_client.dll
+C:\Users\ThomsonSJ\Documents\Visual Studio 2015\Projects\agsml_client\obj\Debug\netcoreapp2.1\agsml_client.pdb
