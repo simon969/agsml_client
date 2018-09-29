@@ -115,11 +115,11 @@ namespace agsml_client
         public void setDbSelect_AGS(String select) {
             db_selectAGS = select;
         }
-        public void setDbStatement_AGS(String statement, String paramName ) {
+        public void setDbStatement_AGS(String statement, optional String paramName ="@p1") {
           db_updateAGS = statement;
           db_paramNameAGS = paramName;
         }
-        public void setDbStatement_XML(String statement, String paramName ) {
+        public void setDbStatement_XML(String statement, otional String paramName="@p1") {
           db_updateXML = statement;
           db_paramNameXML = paramName;
         }
@@ -195,7 +195,7 @@ namespace agsml_client
         }    
         
             using (SqlConnection db = new SqlConnection(db_connect)) {
-                using (SqlCommand cmd = new SqlCommand(db_updateXML, db)) {
+                using (SqlCommand cmd = new SqlCommand(db_selectAGS, db)) {
                     //SqlCommand s = new SqlCommand("select * from foo where a=@xml", db);
                     //    cmd.Parameters.Add(db_paramNameXML, SqlDbType.Xml);
                         cmd.Parameters.Add(db_paramNameXML, SqlDbType.VarChar,1024*4);
